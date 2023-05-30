@@ -1,0 +1,86 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button text="" icon="chevron-back-outline"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            <div class="title_inner d-flex">
+                {{category?.title || 'doctors' | translate}}
+                <span class="end">
+                    <!-- <ion-icon class="zmdi zmdi-sort-amount-desc ion-text-start" (click)="filter()"></ion-icon> -->
+                    <ion-icon class="zmdi zmdi-map ion-text-end" (click)="navMapView()"></ion-icon>
+                </span>
+            </div>
+        </ion-title>
+    </ion-toolbar>
+    <!-- <div class="search_box d-flex">
+		<ion-icon class="zmdi zmdi-search ion-text-start"></ion-icon>
+		<ion-searchbar class="ion-no-padding" searchIcon="hide" placeholder="{{'search_experts_in_field' | translate}}">
+		</ion-searchbar>
+		<ion-icon class="zmdi zmdi-sort-amount-desc ion-text-end" (click)="filter()"></ion-icon>
+	</div> -->
+</ion-header>
+
+<ion-content class="bg_color">
+    <div class="empty-view" *ngIf="!isLoading && (!doctors || !doctors.length)">
+        <div style="text-align:center">
+            <img src="assets/images/empty_categories.png" alt="no offers" />
+            <span style="color:#9E9E9E; font-weight:bold;">
+                {{'empty_results' | translate}}
+            </span>
+        </div>
+    </div>
+    <ion-list lines="none">
+        <ion-item *ngFor="let doctor of doctors" (click)="navDocProfile(doctor)">
+            <div class="item_inner d-flex">
+                <div *ngIf="doctor.user && doctor.user.image_url" class="img_box center_img">
+                    <img [src]="doctor.user.image_url" class="crop_img">
+                </div>
+
+                <div *ngIf="!doctor.user || !doctor.user.image_url" class="img_box center_img">
+                    <img src="assets/images/empty_dp.png" class="crop_img">
+                </div>
+
+                <div class="text_box">
+                    <h2>{{doctor.name}}</h2>
+                    <h3>{{doctor.specializations_text}}
+                        <!-- <span>{{'at' | translate}}</span> {{doctor.address}} -->
+                    </h3>
+                    <ion-row>
+                        <ion-col size="4">
+                            <h2>
+                                {{'exp' | translate}}&nbsp;<strong>{{doctor.experience_years}}
+                                    {{'years' | translate}}</strong>
+                            </h2>
+                        </ion-col>
+                        <ion-col size="3">
+                            <h2>{{'fees' | translate}}&nbsp;<strong>{{currencyIcon}}{{doctor.consultancy_fee}}</strong>
+                            </h2>
+                        </ion-col>
+
+                        <ion-col size="5" class="d-flex">
+                            <h2 class="end">
+                                <ion-icon [ngClass]="doctor.ratings>=1 ? 'zmdi zmdi-star active' : 'zmdi zmdi-star' ">
+                                </ion-icon>
+                                <ion-icon [ngClass]="doctor.ratings>=2 ? 'zmdi zmdi-star active' : 'zmdi zmdi-star' ">
+                                </ion-icon>
+                                <ion-icon [ngClass]="doctor.ratings>=3 ? 'zmdi zmdi-star active' : 'zmdi zmdi-star' ">
+                                </ion-icon>
+                                <ion-icon [ngClass]="doctor.ratings>=4 ? 'zmdi zmdi-star active' : 'zmdi zmdi-star' ">
+                                </ion-icon>
+                                <ion-icon [ngClass]="doctor.ratings>=5 ? 'zmdi zmdi-star active' : 'zmdi zmdi-star' ">
+                                </ion-icon>
+                                &nbsp;
+                                ({{doctor.ratings_count}})
+                            </h2>
+                        </ion-col>
+                    </ion-row>
+                </div>
+            </div>
+        </ion-item>
+    </ion-list>
+    <ion-infinite-scroll (ionInfinite)="doInfiniteDoctors($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{'loading' | translate}}">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>

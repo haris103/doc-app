@@ -1,0 +1,61 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button text="" icon="chevron-back-outline"></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{'select_date_time' | translate}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+    <div class="doctor_info d-flex">
+        <div class="img_box center_img">
+            <img [src]="doctor.user.image_url" class="crop_img">
+        </div>
+        <div class="text_box">
+            <h2>{{doctor.name}}</h2>
+            <h3>{{doctor.specializations_text}}</h3>
+        </div>
+    </div>
+
+    <div class="form">
+        <ion-list lines="none">
+            <ion-card>
+                <h2 class="d-flex">{{'select_date' | translate}} <span class="end">June 2020</span></h2>
+                <div class="date_container ion-text-center">
+                    <div *ngFor="let d of dates" [ngClass]="(dateSelected == d) ? 'date active' : 'date'"
+                        (click)="markSelected(d)">
+                        <h3>{{ weekDays[d.getDay()] | translate }}</h3>
+                        <h2>{{ d.getDate()}}</h2>
+                    </div>
+                </div>
+            </ion-card>
+
+            <ion-card>
+                <h2>{{'available_times' | translate}}</h2>
+                <h3 *ngIf="!(availabilityTimes && availabilityTimes.length)">{{'unavailable_times' | translate}}</h3>
+                <ion-radio-group [(ngModel)]="timeSelected">
+                    <ion-item *ngFor="let at of availabilityTimes">
+                        <ion-label>{{at.timeValue}}</ion-label>
+                        <ion-radio slot="start" [value]="at.time"></ion-radio>
+                    </ion-item>
+                </ion-radio-group>
+            </ion-card>
+
+            <ion-card *ngIf="availabilityTimes && availabilityTimes.length">
+                <h2>{{'appointment_for' | translate}}</h2>
+                <ion-item lines="none">
+                    <ion-input class="ion-text-start" type="text" [(ngModel)]="appointmentReason"
+                        placeholder="{{'problems_here' | translate}}">
+                    </ion-input>
+                </ion-item>
+            </ion-card>
+        </ion-list>
+    </div>
+</ion-content>
+<ion-footer class="ion-no-border">
+    <ion-button size="large" shape="full" class="btn" [disabled]="!(availabilityTimes && availabilityTimes.length)"
+        (click)="createAppointment()">
+        {{'confirm_appointment' | translate}}
+    </ion-button>
+</ion-footer>

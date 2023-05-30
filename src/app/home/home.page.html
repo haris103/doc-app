@@ -1,0 +1,90 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            <div class="title_inner d-flex">
+                <div class="location" (click)="pickLocation()">
+                    <h2 *ngIf="selectedLocation != null" class="d-flex">
+                        <ion-icon class="zmdi zmdi-pin ion-text-start"></ion-icon>
+                        <p class="marquee"> <span> {{selectedLocation.formatted_address}} </span> </p>
+                    </h2>
+                    <h2 *ngIf="selectedLocation == null" class="d-flex">
+                        <ion-icon class="zmdi zmdi-pin ion-text-start"></ion-icon>
+                        <span>{{'select_location' | translate}}</span>
+                    </h2>
+                </div>
+                <span class="end cart_icon" (click)="cart()">
+                    <ion-icon class="zmdi zmdi-shopping-cart ion-text-start"></ion-icon>
+                    <ion-badge>{{eComService.getCartItemsCount()}}</ion-badge>
+                </span>
+            </div>
+        </ion-title>
+    </ion-toolbar>
+
+    <div class="banner">
+        <div class="banner_text">
+            <h3 *ngIf="apiService.getUserMe() != null">{{'hello' | translate}}, {{apiService.getUserMe().name}}.</h3>
+            <h3 *ngIf="apiService.getUserMe() == null">{{'hello' | translate}}.</h3>
+            <h2>{{'find_your_medicines' | translate}}</h2>
+        </div>
+        <div class="search_box d-flex" (click)="navSearch()">
+            <ion-icon name="search-outline" class="ion-text-start"></ion-icon>
+            <h2>{{'search_medicines' | translate}}</h2>
+        </div>
+    </div>
+</ion-header>
+
+<ion-content fullscreen>
+    <div class="shop_by_category" *ngIf="categories && categories.length">
+        <h2 class="d-flex" (click)="viewAllSubCategories()">{{'shop_by_category' | translate}}<span
+                class="end">{{'view_all' | translate}}</span></h2>
+        <div class="scroll-x">
+            <div class="category" *ngFor="let cat of categories" (click)="subCategories(cat)">
+                <div class="category_img center_img">
+                    <img [src]="cat.image" class="crop_img">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="empty-view" *ngIf="haveNothingToShow()">
+        <div style="text-align:center" (click)="pickLocation()">
+            <img src="assets/images/empty_categories.png" alt="no offers" />
+            <span *ngIf="selectedLocation" style="color:#9E9E9E; font-weight:bold;">
+                {{'empty_results' | translate}}
+            </span>
+            <span *ngIf="!selectedLocation" style="color:#9E9E9E; font-weight:bold;">
+                {{'Select_your_location_to_continue' | translate}}
+            </span>
+        </div>
+    </div>
+    <div *ngIf="banners && banners.length" class="offres">
+        <h2 class="d-flex" (click)="offers()">{{'offers' | translate}}
+            <span class="end">{{'view_all' | translate}}</span>
+        </h2>
+        <div class="scroll-x">
+            <div class="offer center_img" *ngFor="let banner of banners" (click)="offers()">
+                <img [src]="banner.image" class="crop_img">
+            </div>
+        </div>
+    </div>
+    <ion-list *ngFor="let catPros of vendorsArray;" lines="none">
+        <h2 class="d-flex">{{'seller_near_you' | translate}}</h2>
+        <div class="scroll_container">
+            <div class="list_inner" *ngFor="let vendors of catPros.vendors" (click)="navVenDetail(vendors)">
+                <ion-item>
+                    <div class="item_inner d-flex">
+                        <div class="img_box center_img">
+                            <img [src]="vendors.image" class="crop_img">
+                        </div>
+                        <div class="text_box">
+                            <h3>{{vendors.name}}</h3>
+                            <h4 class="d-flex">
+                                <ion-icon class="zmdi zmdi-pin"></ion-icon>
+                                <span>{{vendors.distance_toshow}} | {{vendors.address}}</span>
+                            </h4>
+                        </div>
+                    </div>
+                </ion-item>
+            </div>
+        </div>
+    </ion-list>
+</ion-content>

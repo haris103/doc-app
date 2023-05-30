@@ -1,0 +1,99 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button text="" icon="chevron-back-outline"></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{'select_payment_method' | translate}}</ion-title>
+    </ion-toolbar>
+
+    <div class="amount_to_pay">
+        <h3>{{'amount_to_pay' | translate}}</h3>
+        <h2>{{currency_icon}}{{eComService.getCartTotal(true)}}</h2>
+    </div>
+</ion-header>
+<ion-content class="bg_color">
+    <ion-list lines="none">
+        <!-- <h2>{{'payment_modes' | translate}}</h2> -->
+        <ion-radio-group value="{{paymentMethoIdSelected}}" (ionChange)="onPaymentMethodSelected($event)">
+            <ion-item *ngFor="let pm of paymentMethods">
+                <div class="item_inner">
+                    <div class="payment_option d-flex">
+                        <h3 class="d-flex">{{pm.title}}</h3>
+                        <ion-radio class="end" slot="start" value="{{pm.id}}"></ion-radio>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-radio-group>
+
+        <!-- <ion-item (click)="pay()">
+            <div class="item_inner">
+                <div class="payment_option d-flex">
+                    <div class="img_box center_img">
+                        <img src="assets/images/payment_cod.png" class="crop_img">
+                    </div>
+                    <h3>Cash on Delivery</h3>
+                </div>
+            </div>
+        </ion-item>
+        <ion-item (click)="pay()">
+            <div class="item_inner">
+                <div class="payment_option d-flex">
+                    <div class="img_box center_img">
+                        <img src="assets/images/payment_paypal.png" class="crop_img">
+                    </div>
+                    <h3>PayPal</h3>
+                </div>
+            </div>
+        </ion-item>
+        <ion-item (click)="pay()">
+            <div class="item_inner">
+                <div class="payment_option d-flex">
+                    <div class="img_box center_img">
+                        <img src="assets/images/payment_payu.png" class="crop_img">
+                    </div>
+                    <h3>PayU Money</h3>
+                </div>
+            </div>
+        </ion-item>
+        <ion-item (click)="pay()">
+            <div class="item_inner">
+                <div class="payment_option d-flex">
+                    <div class="img_box center_img">
+                        <img src="assets/images/payment_stripe.png" class="crop_img">
+                    </div>
+                    <h3>Stripe</h3>
+                </div>
+            </div>
+        </ion-item> -->
+    </ion-list>
+</ion-content>
+
+
+<ion-footer class="ion-no-border">
+    <!-- <div class="form" [ngClass]="fabAction ? 'active' : ''">
+        <div class="payment_details">
+            <div class="container">
+                <h2 class="d-flex">
+                    {{'sub_total' | translate}}
+                    <span class="end">{{currency_icon}}{{eComService.getCartItemsTotal(true)}}</span>
+                </h2>
+                <h2 *ngFor="let ec of eComService.getExtraCharges()" class="d-flex">
+                    {{ec.id | translate}}
+                    <span class="end">{{ec.priceToShow}}</span>
+                </h2>
+            </div>
+            <div class="amount_payable" (click)="toggleFab()">
+                <h2 class="d-flex">
+                    {{'amount_payable' | translate}}
+                    <ion-icon class="zmdi zmdi-alert-circle-o"></ion-icon>
+                    <ion-icon class="zmdi zmdi-chevron-down"></ion-icon>
+                    <span class="end">{{currency_icon}}{{eComService.getCartTotal(true)}}</span>
+                </h2>
+            </div>
+        </div>
+    </div> -->
+    <ion-button size="large" shape="full" class="btn" (click)="placeOrder()">
+        {{'order_place' | translate}}
+        <ion-icon class="zmdi zmdi-chevron-right"></ion-icon>
+    </ion-button>
+</ion-footer>

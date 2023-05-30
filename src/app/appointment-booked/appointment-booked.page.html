@@ -1,0 +1,20 @@
+<ion-header>
+    <ion-toolbar>
+        <!-- <ion-title>{{'appointment_booked' | translate}}</ion-title> -->
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="container ion-text-center">
+        <div class="img_box">
+            <img src="assets/images/img_appointmentbooked.png">
+        </div>
+        <h1>{{'appointment_booked' | translate}}</h1>
+        <p [innerHTML]="'appointment_booked_msg' | translate"></p>
+    </div>
+</ion-content>
+<ion-footer class="ion-no-border">
+    <ion-button size="large" shape="full" class="btn" (click)="navMyAppointments()">
+        {{'my_appointments' | translate}}
+    </ion-button>
+</ion-footer>

@@ -1,0 +1,114 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            <div class="title_inner d-flex">
+                <div class="location" (click)="pickLocation()">
+                    <h2 *ngIf="selectedLocation != null" class="d-flex">
+                        <ion-icon class="zmdi zmdi-pin ion-text-start"></ion-icon>
+                        <p class="marquee"> <span> {{selectedLocation.formatted_address}} </span> </p>
+                    </h2>
+                    <h2 *ngIf="selectedLocation == null" class="d-flex">
+                        <ion-icon class="zmdi zmdi-pin ion-text-start"></ion-icon>
+                        <span>{{'select_location' | translate}}</span>
+                    </h2>
+                </div>
+            </div>
+        </ion-title>
+    </ion-toolbar>
+
+    <div class="banner">
+        <!--
+        <ion-slides pager="true" loop="true">
+            <ion-slide *ngFor="let banner of banners">
+                <div class="img_box center_img">
+                    <img [src]="banner.image" class="crop_img">
+                </div>
+            </ion-slide>
+        </ion-slides>
+-->
+        <div class="banner_text">
+            <h3 *ngIf="apiService.getUserMe() != null">{{'hello' | translate}}, {{apiService.getUserMe().name}}.</h3>
+            <h3 *ngIf="apiService.getUserMe() == null">{{'hello' | translate}}.</h3>
+            <h2>{{'find_hospital' | translate}}</h2>
+        </div>
+        <div class="search_box d-flex" (click)="navSearch()">
+            <ion-icon name="search-outline" class="ion-text-start"></ion-icon>
+            <h2>{{'search_hospital' | translate}}</h2>
+        </div>
+    </div>
+</ion-header>
+
+<ion-content class="bg_color" fullscreen>
+
+    <div class="shop_by_category">
+        <h2 class="d-flex map_view" (click)="navMapView()">{{'hospitals_near_you' | translate}}
+            <span class="end">
+                <ion-icon class="zmdi zmdi-map end"></ion-icon>
+            </span>
+        </h2>
+        <div class="scroll-x">
+            <div class="category" *ngFor="let category of hostpitalsCategory">
+                <div class="category_img center_img">
+                    <img [src]="category.image" class="crop_img">
+                </div>
+            </div>
+        </div>
+
+        <!-- <h2 class="d-flex map_view" (click)="navMapView()">{{'hospitals_near_you' | translate}}
+            <span class="end">
+                <ion-icon class="zmdi zmdi-map end"></ion-icon>
+            </span>
+        </h2> -->
+    </div>
+
+    <div class="empty-view" *ngIf="!isLoading && (!hospitals || !hospitals.length)">
+        <div style="text-align:center;margin-top: 90%;" (click)="pickLocation()">
+            <img src="assets/images/empty_categories.png" alt="no offers" />
+            <span *ngIf="selectedLocation" style="color:#9E9E9E; font-weight:bold;">
+                {{'empty_results' | translate}}
+            </span>
+            <span *ngIf="!selectedLocation" style="color:#9E9E9E; font-weight:bold;">
+                {{'Select_your_location_to_continue' | translate}}
+            </span>
+        </div>
+
+    </div>
+    <ion-list lines="none">
+        <ion-item *ngFor="let hospital of hospitals">
+            <div class="item_inner">
+                <div class="item_header">
+                    <ion-row (click)="navHospitalInfo(hospital)">
+                        <ion-col size='6'>
+                            <h2>{{hospital.name}}</h2>
+                            <h3>{{hospital.tagline}}</h3>
+                        </ion-col>
+                        <ion-col size='6'>
+                            <div class="hospital_images" (click)="navHospitalInfo(hospital)">
+                                <div *ngFor="let image of hospital.images" class="img_box center_img">
+                                    <img [src]="image" class="crop_img">
+                                </div>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </div>
+
+                <div class="item_footer">
+                    <h3 class="d-flex">
+                        <span class="address" (click)="navHospitalInfo(hospital)">
+                            <ion-icon class="zmdi zmdi-pin ion-text-start"></ion-icon>
+                            {{hospital.address}}
+                        </span>
+                        <span class="end" (click)="dialHospital(hospital)">
+                            <ion-icon class="zmdi zmdi-phone ion-text-start"></ion-icon>
+                            {{'call_now' | translate}}
+                        </span>
+                    </h3>
+                </div>
+            </div>
+        </ion-item>
+    </ion-list>
+    <!-- <ion-infinite-scroll (ionInfinite)="doInfiniteHospitals($event)">
+		<ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{'loading' | translate}}">
+		</ion-infinite-scroll-content>
+	</ion-infinite-scroll> -->
+</ion-content>

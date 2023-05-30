@@ -1,0 +1,72 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button text="" icon="chevron-back-outline"></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{'hospitals_near_you' | translate}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="bg_color" fullscreen="true">
+    <div #map id="map" class="map">
+        <!-- <ion-spinner></ion-spinner> -->
+    </div>
+    <div #pleaseConnect id="please-connect">
+        <!-- <p>{{'loading' | translate}}</p> -->
+    </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+    <ion-list lines="none">
+        <ion-item *ngFor="let hospital of hospitals">
+            <div class="item_inner">
+                <div class="item_header d-flex" (click)="navHospitalInfo(hospital)">
+                    <div class="text_box">
+                        <h2>{{hospital.name}}</h2>
+                        <h3 class="d-flex">{{hospital.tagline}}
+                            <span class="end">
+                                <ion-icon class="zmdi zmdi-phone ion-text-start"></ion-icon>
+                                {{'call_now' | translate}}
+                            </span>
+                        </h3>
+                    </div>
+                    <!--					<h4 class="end">{{'know_more' | translate}}</h4>-->
+                </div>
+                <div class="item_footer">
+                    <h3 class="d-flex">
+                        <ion-icon class="zmdi zmdi-pin ion-text-start"></ion-icon>
+                        <span class="address" (click)="navHospitalInfo(hospital)">{{hospital.address}}</span>
+                        <!--
+                        <span class="end" (click)="navHospital(hospital)">
+                            <ion-icon class="zmdi zmdi-navigation ion-text-start"></ion-icon>
+                            {{'get_direction' | translate}}
+                        </span>
+-->
+                    </h3>
+                </div>
+            </div>
+        </ion-item>
+
+        <!-- <ion-item class="active">
+			<div class="item_inner">
+				<div class="item_header d-flex">
+					<div class="text_box">
+						<h2>Silver Leaf Hospital</h2>
+						<h3>Eye Care Hospital</h3>
+					</div>
+					<h4 class="end">{{'know_more' | translate}}</h4>
+				</div>
+				<div class="item_footer">
+					<h3 class="d-flex">
+						<span class="address">At Walter street, Wallington, New York.</span>
+						<span class="end">
+							<ion-icon class="zmdi zmdi-navigation ion-text-start"></ion-icon>
+							{{'get_direction' | translate}}
+						</span>
+					</h3>
+				</div>
+			</div>
+		</ion-item> -->
+
+    </ion-list>
+</ion-footer>
